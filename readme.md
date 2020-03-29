@@ -4,7 +4,7 @@ Posobota s2e01 - pandemická
 Jakub Englický - Vývojový stack v Dockeru
 ---------------------------- 
 
-####Postup spuštění
+#### Postup spuštění
 
 ```
 docker-compose up -d
