@@ -1,0 +1,35 @@
+parameters:
+
+
+application:
+	errorPresenter: Error
+	mapping:
+		*: [App, Modules\*, Presenters\*Presenter]
+
+
+session:
+	expiration: 14 days
+
+
+redis:
+	storage: true
+	journal: true
+	host: redis
+
+services:
+	router: App\Router\RouterFactory::createRouter
+
+	articleModel: App\Model\ArticleModel\ArticleModel
+
+	articleFacade: App\Elasticsearch\Facade
+
+	cache: App\Cache
+
+extensions:
+	rabbitmq: Gamee\RabbitMQ\DI\RabbitMQExtension
+	console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
+	redis: Kdyby\Redis\DI\RedisExtension
+
+includes:
+	- rabbitmq.neon
+

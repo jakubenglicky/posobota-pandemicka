@@ -1,0 +1,58 @@
+version: '3.3'
+
+services:
+  web:
+    build: .docker
+    volumes:
+    - ./:/var/www/html
+    - ./.docker/apache/sites-enabled:/etc/apache2/sites-enabled
+    ports:
+    - 8080:80
+    environment:
+      DOCKER_DEV: 'true'
+    links:
+      - database
+      - rabbitmq
+      - elasticsearch
+      - redis
+
+  database:
+    image: mariadb:latest
+    volumes:
+    - ./.docker/database:/docker-entrypoint-initdb.d:cached,ro
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: posobota
+      MYSQL_PASSWORD: posobota
+      MYSQL_DATABASE: posobota
+
+  adminer:
+    image: adminer:latest
+    ports:
+    - 8081:8080
+
+  elasticsearch:
+    image: elasticsearch:7.6.1
+    environment:
+      discovery.type: single-node
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+    - 15672:15672
+
+  composer:
+    image: composer:latest
+    volumes:
+    - ./:/app
+    working_dir: /app
+    command: composer install --ignore-platform-reqs
+
+  redis:
+    image: redis:alpine
+
+  console:
+    image: posobota_web
+    entrypoint: bin/console
+    volumes:
+      - ./:/var/www/html

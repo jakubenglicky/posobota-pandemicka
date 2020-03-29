@@ -1,0 +1,46 @@
+rabbitmq:
+	connections:
+		default:
+			user: guest
+			password: guest
+			host: rabbitmq
+			port: 5672
+
+	queues:
+		elasticUpdate:
+			connection: default
+			autoCreate: true;
+
+	exchanges:
+		elasticUpdate:
+			connection: default
+			type: fanout
+			queueBindings:
+				elasticUpdate:
+					routingKey: NULL
+			# force exchange declare on first exchange operation during request
+			autoCreate: true
+
+	producers:
+		elasticUpdate:
+			exchange: elasticUpdate
+			# queue: testQueue
+			contentType: application/json
+			deliveryMode: 2 # Producer::DELIVERY_MODE_PERSISTENT
+
+	consumers:
+		elasticUpdateConsumer:
+			queue: elasticUpdate
+			callback: [@elasticSearch.updateConsumer, consume]
+			qos:
+				prefetchSize: 0
+				prefetchCount: 5
+
+services:
+	elasticsearch.clientFactory: App\Elasticsearch\ElasticClientFactory(%elasticsearch.hosts%)
+	elasticSearch.messagePublisher: App\Elasticsearch\MessagePublisher
+	elasticSearch.updateCommand:
+		factory: App\Elasticsearch\ElasticUpdateCommand
+		tags: [console.command: es:fill-queue]
+	elasticSearch.indexData: App\Elasticsearch\IndexData
+	elasticSearch.updateConsumer: App\Elasticsearch\ElasticUpdaterConsumer

@@ -1,0 +1,11 @@
+version: '3.3'
+
+services:
+  elasticUpdateConsumer:
+    image: posobota_web
+    volumes:
+    - ./:/var/www/html
+    command: bin/console rabbitmq:consumer elasticUpdateConsumer
+    restart: always
+    links:
+      - web

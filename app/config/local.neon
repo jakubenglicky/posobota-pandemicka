@@ -1,0 +1,9 @@
+parameters:
+	elasticsearch:
+		hosts:
+			- elasticsearch
+
+database:
+	dsn: 'mysql:host=database;dbname=posobota'
+	user: posobota
+	password: posobota
