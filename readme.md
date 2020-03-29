@@ -34,7 +34,12 @@ docker-compose run console es:fill-queue articles
 docker-compose -f docker-compose.yml -f docker-compose.consumers.yml up -d
 ```
  - zapne consumera pro zpracování fronty
+
+---
  
+##### Aplikace je dostupná na url: http://localhost:8080 
+
+---
 ```
 docker-compose down --remove-orphans
 ```
