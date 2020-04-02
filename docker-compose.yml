@@ -2,6 +2,7 @@ version: '3.3'
 
 services:
   web:
+    image: posobota_web
     build: .docker
     volumes:
     - ./:/var/www/html
