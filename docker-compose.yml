@@ -7,10 +7,15 @@ services:
     volumes:
     - ./:/var/www/html
     - ./.docker/apache/sites-enabled:/etc/apache2/sites-enabled
+    - ./.docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     ports:
     - 8080:80
     environment:
       DOCKER_DEV: 'true'
+      XDEBUG_CONFIG: "remote_host=192.168.1.53"
+
+    #docker-compose exec web env XDEBUG_CONFIG=remote_host=192.168.1.53
+
     links:
       - database
       - rabbitmq
