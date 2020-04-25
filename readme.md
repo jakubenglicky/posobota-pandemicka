@@ -8,6 +8,9 @@ Jakub Englický - Vývojový stack v Dockeru
 
 ```
 docker-compose up -d
+
+# Pokud chcete rebuildnout image
+docker-compose up -d --build  
 ```
 
  - nastartuje všechny potřebné kontejnery a nainstaluje se vendor/

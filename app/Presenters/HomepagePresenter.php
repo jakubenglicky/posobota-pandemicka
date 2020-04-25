@@ -31,9 +31,12 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
 
 	public function actionDefault()
 	{
-		$articles = $this->cache->load()->load('articles', function (){
-			return $this->articleFacade->getAll();
-		});
+		$articles = $this->cache->load()->load('articles');
+
+		if ( ! $articles) {
+			$articles = $this->articleFacade->getAll();
+		}
+
 		$this->getTemplate()->add('articles', $articles);
 	}
 

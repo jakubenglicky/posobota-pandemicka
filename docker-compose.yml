@@ -11,6 +11,7 @@ services:
     ports:
     - 8080:80
     environment:
+      PHP_IDE_CONFIG: serverName=localhost
       DOCKER_DEV: 'true'
       XDEBUG_CONFIG: "remote_host=192.168.1.53"
 
@@ -62,3 +63,7 @@ services:
     entrypoint: bin/console
     volumes:
       - ./:/var/www/html
+      - ./.docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    environment:
+      PHP_IDE_CONFIG: serverName=localhost
+      XDEBUG_CONFIG: "remote_host=192.168.1.53"
